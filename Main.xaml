@@ -1,4 +1,4 @@
-<Activity mc:Ignorable="sap sap2010" x:Class="Main" mva:VisualBasic.Settings="{x:Null}" sap:VirtualizedContainerService.HintSize="558,1666" sap2010:WorkflowViewState.IdRef="ActivityBuilder_1" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Activity mc:Ignorable="sap sap2010" x:Class="Main" mva:VisualBasic.Settings="{x:Null}" sap:VirtualizedContainerService.HintSize="558,1929" sap2010:WorkflowViewState.IdRef="ActivityBuilder_1" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <TextExpression.NamespacesForImplementation>
     <scg:List x:TypeArguments="x:String" Capacity="21">
       <x:String>System.Activities</x:String>
@@ -46,31 +46,56 @@
       <AssemblyReference>UiPath.Mail</AssemblyReference>
     </scg:List>
   </TextExpression.ReferencesForImplementation>
-  <Sequence sap:VirtualizedContainerService.HintSize="518,1546" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence sap:VirtualizedContainerService.HintSize="518,1809" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
       <Variable x:TypeArguments="x:String" Name="Result" />
       <Variable x:TypeArguments="x:String" Name="Solution" />
       <Variable x:TypeArguments="x:Int32" Default="0" Name="KloyStrange" />
-      <Variable x:TypeArguments="x:Int32" Name="Number" />
+      <Variable x:TypeArguments="x:String" Name="Number" />
       <Variable x:TypeArguments="ui:GenericValue" Name="Level" />
+      <Variable x:TypeArguments="s:String[]" Name="LevelList" />
+      <Variable x:TypeArguments="x:Int32" Name="LevelTemp" />
     </Sequence.Variables>
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <ui:MessageBox Caption="{x:Null}" ChosenButton="{x:Null}" Buttons="Ok" DisplayName="Message Box" sap:VirtualizedContainerService.HintSize="480,59" sap2010:WorkflowViewState.IdRef="MessageBox_1" Text="[&quot;The Level that we have : Easy , Medium , Hard , Evil&quot;]" TopMost="True" />
-    <ui:InputDialog Label="{x:Null}" Options="{x:Null}" DisplayName="Input Dialog" sap:VirtualizedContainerService.HintSize="480,92" sap2010:WorkflowViewState.IdRef="InputDialog_2" IsPassword="False" Title="What Level do you want to play">
+    <Assign sap:VirtualizedContainerService.HintSize="480,60" sap2010:WorkflowViewState.IdRef="Assign_2">
+      <Assign.To>
+        <OutArgument x:TypeArguments="s:String[]">[LevelList]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="s:String[]">[{"Easy","Medium","Hard","Evil"}]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <ui:InputDialog DisplayName="Input Dialog" sap:VirtualizedContainerService.HintSize="480,92" sap2010:WorkflowViewState.IdRef="InputDialog_2" IsPassword="False" Label="The Level that we have : Easy , Medium , Hard , Evil" Options="[LevelList]" Title="What Level do you want to play">
       <ui:InputDialog.Result>
         <OutArgument x:TypeArguments="ui:GenericValue">[Level]</OutArgument>
       </ui:InputDialog.Result>
     </ui:InputDialog>
-    <ui:InputDialog Label="{x:Null}" Options="{x:Null}" DisplayName="Input Dialog" sap:VirtualizedContainerService.HintSize="480,92" sap2010:WorkflowViewState.IdRef="InputDialog_1" IsPassword="False" Title="How many do you want to play soduku?">
+    <ui:InputDialog Label="{x:Null}" Options="{x:Null}" DisplayName="Input Dialog" sap:VirtualizedContainerService.HintSize="480,92" sap2010:WorkflowViewState.IdRef="InputDialog_1" IsPassword="False" Title="What Level number do you want to play?">
       <ui:InputDialog.Result>
-        <OutArgument x:TypeArguments="x:Int32">[Number]</OutArgument>
+        <OutArgument x:TypeArguments="x:String">[Number]</OutArgument>
       </ui:InputDialog.Result>
     </ui:InputDialog>
-    <While sap:VirtualizedContainerService.HintSize="480,1091" sap2010:WorkflowViewState.IdRef="While_1" Condition="[KloyStrange&lt;Number]">
+    <Assign sap:VirtualizedContainerService.HintSize="480,60" sap2010:WorkflowViewState.IdRef="Assign_3">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:Int32">[LevelTemp]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:Int32">[Array.IndexOf(LevelList,Level.ToString)+1]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <Assign sap:VirtualizedContainerService.HintSize="480,60" sap2010:WorkflowViewState.IdRef="Assign_4">
+      <Assign.To>
+        <OutArgument x:TypeArguments="ui:GenericValue">[Level]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="ui:GenericValue">[LevelTemp]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <While sap:VirtualizedContainerService.HintSize="480,1091" sap2010:WorkflowViewState.IdRef="While_1" Condition="[KloyStrange&lt;1]">
       <Sequence sap:VirtualizedContainerService.HintSize="368,933" sap2010:WorkflowViewState.IdRef="Sequence_2">
         <Sequence.Variables>
           <Variable x:TypeArguments="x:String" Name="NameFile" />
@@ -86,6 +111,7 @@
           <ui:InvokeWorkflowFile.Arguments>
             <OutArgument x:TypeArguments="x:String" x:Key="out_Result">[Result]</OutArgument>
             <InArgument x:TypeArguments="x:String" x:Key="in_Level">[Level]</InArgument>
+            <InArgument x:TypeArguments="x:String" x:Key="in_Number">[Number]</InArgument>
           </ui:InvokeWorkflowFile.Arguments>
         </ui:InvokeWorkflowFile>
         <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke GetNameFile workflow" sap:VirtualizedContainerService.HintSize="330,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_9" UnSafe="False" WorkflowFileName="GetNameFile.xaml">
@@ -136,5 +162,6 @@
         </Assign>
       </Sequence>
     </While>
+    <Delay Duration="00:00:03" sap:VirtualizedContainerService.HintSize="480,22" sap2010:WorkflowViewState.IdRef="Delay_1" />
   </Sequence>
 </Activity>
